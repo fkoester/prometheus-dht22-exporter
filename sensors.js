@@ -6,28 +6,28 @@ Promise.promisifyAll(gpio);
 
 const sensors = [{
   gpioPin: 11,
-  sensorId: '0',
-  sensorDescription: '',
+  id: '0',
+  description: '',
 }, {
   gpioPin: 12,
-  sensorId: '1',
-  sensorDescription: '',
+  id: '1',
+  description: '',
 }, {
   gpioPin: 13,
-  sensorId: '2',
-  sensorDescription: '',
+  id: '2',
+  description: '',
 }, {
   gpioPin: 15,
-  sensorId: '3',
-  sensorDescription: '',
+  id: '3',
+  description: '',
 }, {
   gpioPin: 16,
-  sensorId: '4',
-  sensorDescription: '',
+  id: '4',
+  description: '',
 }, {
   gpioPin: 18,
-  sensorId: '5',
-  sensorDescription: '',
+  id: '5',
+  description: '',
 }];
 
 const airTempGauge = new client.Gauge('air_temperature', 'Air Temperature in a room', ['sensorId', 'sensorDescription']);
@@ -36,14 +36,10 @@ const relHumidityGauge = new client.Gauge('humidity_relative', 'Relative humidit
 function readSensorData(sensor) {
   gpio.readAsync(sensor.gpioPin)
   .then((value) => {
-    console.log(`${sensorId} ${value}`);
-    //tempGauge.set(parseFloat(data));
+    console.log(`${sensor.id} ${value}`);
+    // tempGauge.set(parseFloat(data));
   });
 }
 
-Promise.map(sensors, (sensor) => {
-  return gpio.openAsync(sensor.gpioPin, 'input');
-})
-.then(Promise.map(sensors, (sensor) => {
-  return readSensorData(sensor);
-});
+Promise.map(sensors, sensor => gpio.openAsync(sensor.gpioPin, 'input'))
+.then(Promise.map(sensors, sensor => readSensorData(sensor)));

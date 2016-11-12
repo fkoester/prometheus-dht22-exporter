@@ -46,6 +46,10 @@ function readSensorData(sensor) {
       console.log('No data returned, skipping.');
       return;
     }
+    if (!reading.temperature || !reading.humidity) {
+      console.log('Data returned, but temp and/or humidity value undefined');
+      return;
+    }
     console.log(typeof reading.temperature);
     console.log(typeof reading.humidity);
     console.log(`${sensor.id} ${reading.temperature.toFixed(1)}°C ${reading.humidity.toFixed(1)}%`);
@@ -57,11 +61,14 @@ function readSensorData(sensor) {
       sensorId: sensor.id,
       sensorDescription: sensor.description,
     }, reading.humidity);
+  })
+  .catch((err) => {
+    console.warn(err);
   });
 }
 
 function readSensors() {
-  Promise.map(sensors, sensor => readSensorData(sensor))
+  Promise.mapSeries(sensors, sensor => readSensorData(sensor))
   .delay(3000)
   .then(readSensors);
 }

@@ -5,32 +5,32 @@ const dhtSensor = require("node-dht-sensor");
 Promise.promisifyAll(dhtSensor);
 
 const sensors = [{
-  gpioPin: 11,
+  gpioPin: 17,
   type: 22,
   id: '0',
   description: '',
 }, {
-  gpioPin: 12,
+  gpioPin: 18,
   type: 22,
   id: '1',
   description: '',
 }, {
-  gpioPin: 13,
+  gpioPin: 27,
   type: 22,
   id: '2',
   description: '',
 }, {
-  gpioPin: 15,
+  gpioPin: 22,
   type: 22,
   id: '3',
   description: '',
 }, {
-  gpioPin: 16,
+  gpioPin: 23,
   type: 22,
   id: '4',
   description: '',
 }, {
-  gpioPin: 18,
+  gpioPin: 24,
   type: 22,
   id: '5',
   description: '',

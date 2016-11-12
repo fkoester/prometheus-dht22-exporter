@@ -2,7 +2,7 @@ const client = require('prom-client');
 const Promise = require('bluebird');
 const dhtSensor = require('node-dht-sensor');
 
-Promise.promisifyAll(dhtSensor);
+Promise.promisifyAll(dhtSensor, { multiArgs: true });
 
 const sensors = [{
   gpioPin: 17,
@@ -42,7 +42,12 @@ const relHumidityGauge = new client.Gauge('humidity_relative', 'Relative humidit
 function readSensorData(sensor) {
   console.log(`Reading sensor id ${sensor.id} with type ${sensor.type} at pin ${sensor.gpioPin}`);
   return dhtSensor.readAsync(sensor.type, sensor.gpioPin)
-  .then((temperature, humidity) => {
+  .then((reading) => {
+    if (!Array.isArray(reading) || reading.length !== 2) {
+      console.log('Reading does not have required format. Skipping');
+    }
+    const temperature = reading[0];
+    const humidity = reading[1];
     if (!temperature || !humidity) {
       console.log('Data returned, but temp and/or humidity value undefined');
       return;

@@ -42,6 +42,10 @@ const relHumidityGauge = new client.Gauge('humidity_relative', 'Relative humidit
 function readSensorData(sensor) {
   dhtSensor.readAsync(sensor.type, sensor.gpioPin)
   .then((reading) => {
+    if (!reading) {
+      console.log('No data returned, skipping.');
+      return;
+    }
     console.log(typeof reading.temperature);
     console.log(typeof reading.humidity);
     console.log(`${sensor.id} ${reading.temperature.toFixed(1)}°C ${reading.humidity.toFixed(1)}%`);
@@ -56,4 +60,10 @@ function readSensorData(sensor) {
   });
 }
 
-Promise.map(sensors, sensor => readSensorData(sensor));
+function readSensors() {
+  Promise.map(sensors, sensor => readSensorData(sensor))
+  .delay(3000)
+  .then(readSensors);
+}
+
+readSensors();

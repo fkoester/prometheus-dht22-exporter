@@ -1,7 +1,7 @@
 const client = require('prom-client');
 const Promise = require('bluebird');
 const dhtSensor = require('node-dht-sensor');
-const sensors = require('./sensorconfig.json')
+const sensors = require('/etc/prometheus-dht22-exporter/sensorconfig.json');
 
 Promise.promisifyAll(dhtSensor, { multiArgs: true });
 

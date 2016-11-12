@@ -41,7 +41,7 @@ const relHumidityGauge = new client.Gauge('humidity_relative', 'Relative humidit
 
 function readSensorData(sensor) {
   console.log(`Reading sensor id ${sensor.id} with type ${sensor.type} at pin ${sensor.gpioPin}`);
-  dhtSensor.readAsync(sensor.type, sensor.gpioPin)
+  return dhtSensor.readAsync(sensor.type, sensor.gpioPin)
   .then((temperature, humidity) => {
     if (!temperature || !humidity) {
       console.log('Data returned, but temp and/or humidity value undefined');

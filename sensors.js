@@ -5,8 +5,13 @@ const sensors = require('./sensorconfig.json')
 
 Promise.promisifyAll(dhtSensor, { multiArgs: true });
 
-const airTempGauge = new client.Gauge('air_temperature', 'Air Temperature in a room', ['sensorId', 'sensorDescription']);
-const relHumidityGauge = new client.Gauge('humidity_relative', 'Relative humidity in a room', ['sensorId', 'sensorDescription']);
+const airTempGauge = new client.Gauge('air_temperature', 'Air Temperature', ['sensorId', 'sensorDescription']);
+const relHumidityGauge = new client.Gauge('humidity_relative', 'Humidity (relative)', ['sensorId', 'sensorDescription']);
+const absHumidityGauge = new client.Gauge('humidity_absolute', 'Humidity (absolute)', ['sensorId', 'sensorDescription']);
+
+function calcAbsoluteHumidity(relHumidity, temperature) {
+  return 6.112 * Math.exp((17.67 * temperature) / (temperature + 243.5)) * relHumidity * 2.1674;
+}
 
 function readSensorData(sensor) {
   return dhtSensor.readAsync(sensor.type, sensor.gpioPin)
@@ -15,11 +20,9 @@ function readSensorData(sensor) {
       console.warn('Reading does not have required format. Skipping');
     }
     const temperature = reading[0];
-    const humidity = reading[1];
-    if (!temperature || !humidity) {
-      console.warn('Data returned, but temp and/or humidity value undefined');
-      return;
-    }
+    const relHumidity = reading[1];
+    const absHumidity = calcAbsoluteHumidity(relHumidity, temperature);
+
     airTempGauge.set({
       sensorId: sensor.id,
       sensorDescription: sensor.description,
@@ -27,7 +30,11 @@ function readSensorData(sensor) {
     relHumidityGauge.set({
       sensorId: sensor.id,
       sensorDescription: sensor.description,
-    }, humidity);
+    }, relHumidity);
+    absHumidityGauge.set({
+      sensorId: sensor.id,
+      sensorDescription: sensor.description,
+    }, absHumidity);
   })
   .catch((err) => {
     console.warn(err);

@@ -1,6 +1,6 @@
 const client = require('prom-client');
 const Promise = require('bluebird');
-const dhtSensor = require("node-dht-sensor");
+const dhtSensor = require('node-dht-sensor');
 
 Promise.promisifyAll(dhtSensor);
 
@@ -40,27 +40,24 @@ const airTempGauge = new client.Gauge('air_temperature', 'Air Temperature in a r
 const relHumidityGauge = new client.Gauge('humidity_relative', 'Relative humidity in a room', ['sensorId', 'sensorDescription']);
 
 function readSensorData(sensor) {
+  console.log(`Reading sensor id ${sensor.id} with type ${sensor.type} at pin ${sensor.gpioPin}`);
   dhtSensor.readAsync(sensor.type, sensor.gpioPin)
-  .then((reading) => {
-    if (!reading) {
-      console.log('No data returned, skipping.');
-      return;
-    }
-    if (!reading.temperature || !reading.humidity) {
+  .then((temperature, humidity) => {
+    if (!temperature || !humidity) {
       console.log('Data returned, but temp and/or humidity value undefined');
       return;
     }
-    console.log(typeof reading.temperature);
-    console.log(typeof reading.humidity);
-    console.log(`${sensor.id} ${reading.temperature.toFixed(1)}°C ${reading.humidity.toFixed(1)}%`);
+    console.log(typeof temperature);
+    console.log(typeof humidity);
+    console.log(`${sensor.id} ${temperature.toFixed(1)}°C ${humidity.toFixed(1)}%`);
     airTempGauge.set({
       sensorId: sensor.id,
       sensorDescription: sensor.description,
-    }, reading.temperature);
+    }, temperature);
     relHumidityGauge.set({
       sensorId: sensor.id,
       sensorDescription: sensor.description,
-    }, reading.humidity);
+    }, humidity);
   })
   .catch((err) => {
     console.warn(err);

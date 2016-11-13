@@ -9,8 +9,14 @@ const airTempGauge = new client.Gauge('air_temperature', 'Air Temperature', ['se
 const relHumidityGauge = new client.Gauge('humidity_relative', 'Humidity (relative)', ['sensorId', 'sensorDescription']);
 const absHumidityGauge = new client.Gauge('humidity_absolute', 'Humidity (absolute)', ['sensorId', 'sensorDescription']);
 
+/*
+   Returns the Absolute Humidity in grams/m3
+   Source:
+   https://carnotcycle.wordpress.com/2012/08/04/how-to-convert-relative-humidity-to-absolute-humidity/
+   Accurate to within 0.1% over the temperature range –30°C to +35°C
+*/
 function calcAbsoluteHumidity(relHumidity, temperature) {
-  return 6.112 * Math.exp((17.67 * temperature) / (temperature + 243.5)) * relHumidity * 2.1674;
+  return (6.112 * Math.exp((17.67 * temperature) / (temperature + 243.5)) * relHumidity * 2.1674) / (273.15 + temperature);
 }
 
 function readSensorData(sensor) {

@@ -25,8 +25,17 @@ function readSensorData(sensor) {
     if (!Array.isArray(reading) || reading.length !== 2) {
       console.warn('Reading does not have required format. Skipping');
     }
-    const temperature = reading[0];
-    const relHumidity = reading[1];
+    let temperature = reading[0];
+    let relHumidity = reading[1];
+
+    if (typeof sensor.temperatureCorrection === 'number') {
+      temperature += sensor.temperatureCorrection;
+    }
+
+    if (typeof sensor.humidityCorrection === 'number') {
+      relHumidity += sensor.humidityCorrection;
+    }
+
     const absHumidity = calcAbsoluteHumidity(relHumidity, temperature);
 
     airTempGauge.set({

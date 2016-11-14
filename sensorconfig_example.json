@@ -2,30 +2,42 @@
   "gpioPin": 17,
   "type": 22,
   "id": "0",
-  "description": ""
+  "description": "",
+  "temperatureCorrection": -0.18,
+  "humidityCorrection": 1.83
 }, {
   "gpioPin": 18,
   "type": 22,
   "id": "1",
-  "description": ""
+  "description": "",
+  "temperatureCorrection": 0.4,
+  "humidityCorrection": -1.67
 }, {
   "gpioPin": 27,
   "type": 22,
   "id": "2",
-  "description": ""
+  "description": "",
+  "temperatureCorrection": 0.4,
+  "humidityCorrection": -1.07
 }, {
   "gpioPin": 22,
   "type": 22,
   "id": "3",
-  "description": ""
+  "description": "",
+  "temperatureCorrection": 0.2,
+  "humidityCorrection": -0.97
 }, {
   "gpioPin": 23,
   "type": 22,
   "id": "4",
-  "description": ""
+  "description": "",
+  "temperatureCorrection": 0.1,
+  "humidityCorrection": 3.33
 }, {
   "gpioPin": 24,
   "type": 22,
   "id": "5",
-  "description": ""
+  "description": "",
+  "temperatureCorrection": 0.2,
+  "humidityCorrection": -1.17
 }]

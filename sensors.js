@@ -25,8 +25,8 @@ function readSensorData(sensor) {
     if (!Array.isArray(reading) || reading.length !== 2) {
       console.warn('Reading does not have required format. Skipping');
     }
-    let temperature = reading[0];
-    let relHumidity = reading[1];
+    var temperature = reading[0];
+    var relHumidity = reading[1];
 
     if (typeof sensor.temperatureCorrection === 'number') {
       temperature += sensor.temperatureCorrection;

@@ -2,42 +2,35 @@
   "gpioPin": 17,
   "type": 22,
   "id": "0",
-  "description": "",
+  "description": "Außen",
   "temperatureCorrection": 0.02,
   "humidityCorrection": 1.68
-}, {
-  "gpioPin": 18,
-  "type": 22,
-  "id": "1",
-  "description": "",
-  "temperatureCorrection": 0.42,
-  "humidityCorrection": -1.92
 }, {
   "gpioPin": 27,
   "type": 22,
   "id": "2",
-  "description": "",
+  "description": "Schlafzimmer",
   "temperatureCorrection": 0.32,
   "humidityCorrection": -1.12
 }, {
   "gpioPin": 22,
   "type": 22,
   "id": "3",
-  "description": "",
+  "description": "Vorratsraum",
   "temperatureCorrection": 0.12,
   "humidityCorrection": -0.92
 }, {
   "gpioPin": 23,
   "type": 22,
   "id": "4",
-  "description": "",
+  "description": "Büro",
   "temperatureCorrection": 0.02,
   "humidityCorrection": 3.28
 }, {
   "gpioPin": 24,
   "type": 22,
   "id": "5",
-  "description": "",
+  "description": "Wohnzimmer",
   "temperatureCorrection": 0.22,
   "humidityCorrection": -1.22
 }]

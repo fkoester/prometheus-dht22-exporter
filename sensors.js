@@ -52,7 +52,7 @@ function readSensorData(sensor) {
     }, absHumidity);
   })
   .catch((err) => {
-    console.warn(err);
+    console.warn(`An error occured when reading sensor ${sensor.id}: ${err.message}`);
   });
 }
 
